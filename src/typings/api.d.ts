@@ -149,6 +149,11 @@ declare namespace Api {
       url: RedirectUrl.RedirectUrlInfo;
     }>;
 
+    type ExtraSearchInfo = Common.CommonRecord<{
+      group_code: string;
+      url: string;
+    }>;
+
     type UrlHandleLogList = Common.PaginatingQueryRecord<UrlHandleLogInfo>;
 
     /** user search params */
@@ -158,8 +163,7 @@ declare namespace Api {
         'http_status' | 'status' | 'client_ip' | 'client_ip_region' | 'client_ip_sub_region'
       > &
         Api.Common.CommonSearchParams &
-        'group_code' &
-        'url'
+        ExtraSearchInfo
     >;
   }
   /**

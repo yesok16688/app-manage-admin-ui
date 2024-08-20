@@ -9,9 +9,7 @@ import OperateDrawer from './modules/handle-url-drawer.vue';
 import Search from './modules/handle-url-search.vue';
 
 const pageOptions = getOptions();
-const handleStatusOptions = pageOptions.app.handleStatus
-  ? pageOptions.app.handleStatus
-  : {};
+const handleStatusOptions = pageOptions.app.handleStatus ? pageOptions.app.handleStatus : {};
 
 const appStore = useAppStore();
 
@@ -31,6 +29,8 @@ const {
   apiParams: {
     current_page: 1,
     per_page: 15,
+    group_code: null,
+    url: null,
     http_status: null,
     status: null,
     client_ip: null,
