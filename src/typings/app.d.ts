@@ -288,6 +288,7 @@ declare namespace App {
         updateCancel: string;
       };
       common: {
+        review: string;
         action: string;
         add: string;
         addSuccess: string;
@@ -400,6 +401,7 @@ declare namespace App {
         common: {
           createdAt: string;
           updatedAt: string;
+          isEnable: string;
           remark: string;
           placeholder: {
             remark: string;
@@ -501,10 +503,24 @@ declare namespace App {
             redirectGroupCode: string;
           };
         };
+        apiUrl: {
+          title: string;
+          groupCode: string;
+          url: string;
+          isReserved: string;
+          addInfo: string;
+          editInfo: string;
+          order: string;
+          placeholder: {
+            groupCode: string;
+            url: string;
+          };
+        };
         redirectUrl: {
           title: string;
           groupCode: string;
           url: string;
+          checkUrl: string;
           isEnable: string;
           addInfo: string;
           editInfo: string;
@@ -512,6 +528,7 @@ declare namespace App {
           placeholder: {
             groupCode: string;
             url: string;
+            checkUrl: string;
           };
         };
         regionBlacklist: {
@@ -540,6 +557,22 @@ declare namespace App {
             isEnable: string;
           };
         };
+        urlHandleLog: {
+          title: string;
+          region: string;
+          subRegionCode: string;
+          status: string;
+          editInfo: string;
+          httpStatus: string;
+          clientIP: string;
+          clientIPRegion: string;
+          clientIPSubRegion: string;
+          placeholder: {
+            region: string;
+            subRegionCode: string;
+            status: string;
+          };
+        };
       };
       form: {
         required: string;
@@ -549,6 +582,7 @@ declare namespace App {
         confirmPwd: FormMsg;
         code: FormMsg;
         email: FormMsg;
+        url: FormMsg;
       };
       dropdown: Record<Global.DropdownKey, string>;
       icon: {

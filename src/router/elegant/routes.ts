@@ -40,6 +40,16 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'api-url',
+    path: '/api-url',
+    component: 'layout.base$view.api-url',
+    meta: {
+      order: 3,
+      title: 'api-url',
+      i18nKey: 'route.api-url'
+    }
+  },
+  {
     name: 'app-manage',
     path: '/app-manage',
     component: 'layout.base$view.app-manage',
@@ -117,6 +127,17 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'region-whitelist',
       i18nKey: 'route.region-whitelist',
       icon: 'mdi:file-document-check'
+    }
+  },
+  {
+    name: 'url-handle-log',
+    path: '/url-handle-log',
+    component: 'layout.base$view.url-handle-log',
+    meta: {
+      order: 5,
+      title: 'url-handle-log',
+      i18nKey: 'route.url-handle-log',
+      icon: 'mdi:calendar-remove'
     }
   }
 ];

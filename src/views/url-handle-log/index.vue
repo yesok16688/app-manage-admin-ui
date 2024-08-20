@@ -1,11 +1,17 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
-import { fetchDeleteRedirectUrlInfo, fetchGetRedirectUrlList } from '@/service/api';
+import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { fetchDeleteHandleLogInfo, fetchGetHandleLogList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import OperateDrawer from './modules/redirect-drawer.vue';
-import Search from './modules/redirect-search.vue';
+import { getOptions } from '@/store/modules/app/shared';
+import OperateDrawer from './modules/handle-url-drawer.vue';
+import Search from './modules/handle-url-search.vue';
+
+const pageOptions = getOptions();
+const handleStatusOptions = pageOptions.app.handleStatus
+  ? pageOptions.app.handleStatus
+  : {};
 
 const appStore = useAppStore();
 
@@ -20,16 +26,16 @@ const {
   searchParams,
   resetSearchParams
 } = useTable({
-  apiFn: fetchGetRedirectUrlList,
+  apiFn: fetchGetHandleLogList,
   showTotal: true,
   apiParams: {
     current_page: 1,
     per_page: 15,
-    type: 1,
-    group_code: null,
-    url: null,
-    is_reserved: null,
-    is_enable: null
+    http_status: null,
+    status: null,
+    client_ip: null,
+    client_ip_region: null,
+    client_ip_sub_region: null
   },
   columns: () => [
     {
@@ -44,34 +50,67 @@ const {
       width: 64
     },
     {
-      key: 'group_code',
+      key: 'url.group_code',
       title: $t('page.redirectUrl.groupCode'),
       align: 'center',
       minWidth: 80
     },
     {
-      key: 'url',
-      title: $t('page.redirectUrl.url'),
+      key: 'url.url',
+      title: $t('page.apiUrl.url'),
       align: 'center',
       minWidth: 100
     },
     {
-      key: 'check_url',
-      title: $t('page.redirectUrl.checkUrl'),
+      key: 'status',
+      title: $t('page.urlHandleLog.status'),
       align: 'center',
-      minWidth: 100
-    },
-    {
-      key: 'is_enable',
-      title: $t('page.redirectUrl.isEnable'),
-      align: 'center',
-      width: 80,
+      width: 100,
       render: row => {
-        if (row.is_enable === null) {
+        if (row.status === null) {
           return null;
         }
-        return row.is_enable === 1 ? '是' : '否';
+        let tag = 'default';
+        switch (row.status) {
+          case 1:
+            tag = 'success';
+            break;
+          case 0:
+            tag = 'error';
+            break;
+          case 2:
+            tag = 'warning';
+            break;
+          default:
+            tag = 'default';
+            break;
+        }
+        return <NTag type={tag}>{handleStatusOptions[row.status]}</NTag>;
       }
+    },
+    {
+      key: 'url.http_status',
+      title: $t('page.urlHandleLog.httpStatus'),
+      align: 'center',
+      minWidth: 80
+    },
+    {
+      key: 'url.client_ip',
+      title: $t('page.urlHandleLog.clientIP'),
+      align: 'center',
+      minWidth: 80
+    },
+    {
+      key: 'url.client_ip_region',
+      title: $t('page.urlHandleLog.clientIPRegion'),
+      align: 'center',
+      minWidth: 80
+    },
+    {
+      key: 'url.client_ip_sub_region',
+      title: $t('page.urlHandleLog.clientIPSubRegion'),
+      align: 'center',
+      minWidth: 80
     },
     {
       key: 'created_at',
@@ -99,7 +138,7 @@ const {
       render: row => (
         <div class="flex-center gap-8px">
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-            {$t('common.edit')}
+            {$t('common.review')}
           </NButton>
           <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
             {{
@@ -135,7 +174,7 @@ async function handleBatchDelete() {
 }
 
 async function handleDelete(id: number) {
-  const { error } = await fetchDeleteRedirectUrlInfo(id);
+  const { error } = await fetchDeleteHandleLogInfo(id);
   if (!error) {
     onDeleted();
   }
@@ -149,10 +188,11 @@ function edit(id: number) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <Search v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
-    <NCard :title="$t('page.redirectUrl.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard :title="$t('page.urlHandleLog.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
+          :hide-add=true
           :disabled-delete="1"
           :loading="loading"
           @add="handleAdd"

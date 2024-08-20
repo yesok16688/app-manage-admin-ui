@@ -139,3 +139,30 @@ export function fetchDeleteRegionWhitelistInfo(id: number) {
     data: {}
   });
 }
+
+/**
+ * GetUrlHandleLogList
+ */
+export function fetchGetHandleLogList(params?: Api.UrlHandleLog.UrlHandleLogInfo) {
+  return request<Api.UrlHandleLog.UrlHandleLogList>({
+    url: '/api/url-handle-log',
+    method: 'get',
+    params
+  });
+}
+
+export function fetchHandleUrl(id: number, model: Api.UrlHandleLog.UrlHandleReviewInfo) {
+  return request<any>({
+    url: `/api/url-handle/${id}`,
+    method: 'post',
+    data: model
+  });
+}
+
+export function fetchDeleteHandleLogInfo(id: number) {
+  return request<any>({
+    url: `/api/url-handle-log/${id}`,
+    method: 'delete',
+    data: {}
+  });
+}

@@ -2,15 +2,15 @@
 import { computed } from 'vue';
 import { $t } from '@/locales';
 import { useNaiveForm } from '@/hooks/common/form';
-import { transformRecordToOption } from '@/utils/common';
+import { transformRecordToNumberOption, transformRecordToOption } from '@/utils/common';
 import { getOptions } from '@/store/modules/app/shared';
-import { yesOrNoOptions } from '@/constants/common';
 
 const pageOptions = getOptions();
 const groupCodeOptions = pageOptions.app.groupCodes ? transformRecordToOption(pageOptions.app.groupCodes) : {};
+const handleStatusOptions = pageOptions.app.handleStatus ? transformRecordToNumberOption(pageOptions.app.handleStatus) : {};
 
 defineOptions({
-  name: 'RedirectUrlSearch'
+  name: 'UrlHandleLogSearch'
 });
 
 interface Emits {
@@ -22,9 +22,9 @@ const emit = defineEmits<Emits>();
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
 
-const model = defineModel<Api.RedirectUrl.RedirectUrlSearchParams>('model', { required: true });
+const model = defineModel<Api.UrlHandleLog.UrlHandleLogSearchParams>('model', { required: true });
 
-type RuleKey = Extract<keyof Api.RedirectUrl.RedirectUrlSearchParams, ''>;
+type RuleKey = Extract<keyof Api.UrlHandleLog.UrlHandleLogSearchParams, ''>;
 
 const rules = computed<Record<RuleKey, App.Global.FormRule>>(() => {
   return {};
@@ -47,30 +47,16 @@ async function search() {
       <NCollapseItem :title="$t('common.search')" name="user-search">
         <NForm ref="formRef" :model="model" :rules="rules" label-placement="left" :label-width="80">
           <NGrid responsive="screen" item-responsive>
-            <NFormItemGi
-              span="24 s:12 m:6"
-              :label="$t('page.redirectUrl.groupCode')"
-              path="group_code"
-              class="pr-24px"
-            >
-              <NSelect
-                v-model:value="model.group_code"
-                :options="groupCodeOptions"
-                clearable
-              />
+            <NFormItemGi span="24 s:12 m:6" :label="$t('page.redirectUrl.groupCode')" path="group_code" class="pr-24px">
+              <NSelect v-model:value="model.group_code" :options="groupCodeOptions" clearable />
             </NFormItemGi>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('page.redirectUrl.url')" path="url" class="pr-24px">
-              <NInput v-model:value="model.url" :placeholder="$t('page.redirectUrl.placeholder.url')" />
+            <NFormItemGi span="24 s:12 m:6" :label="$t('page.apiUrl.url')" path="url" class="pr-24px">
+              <NInput v-model:value="model.url" :placeholder="$t('page.apiUrl.placeholder.url')" clearable />
             </NFormItemGi>
-            <NFormItemGi
-              span="24 s:12 m:6"
-              :label="$t('page.redirectUrl.isEnable')"
-              path="is_enable"
-              class="pr-24px"
-            >
+            <NFormItemGi span="24 s:12 m:6" :label="$t('page.urlHandleLog.status')" path="status" class="pr-24px">
               <NSelect
-                v-model:value="model.is_enable"
-                :options="yesOrNoOptions"
+                v-model:value="model.status"
+                :options="handleStatusOptions"
                 clearable
               />
             </NFormItemGi>

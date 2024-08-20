@@ -7,6 +7,7 @@ const local: App.I18n.Schema = {
     updateCancel: '稍后再说'
   },
   common: {
+    review: '审核',
     action: '操作',
     add: '新增',
     addSuccess: '添加成功',
@@ -156,15 +157,18 @@ const local: App.I18n.Schema = {
     'iframe-page': '外链页面',
     home: '首页',
     'app-manage': '应用管理',
-    'redirect-url': '跳转管理',
+    'api-url': 'A面接口地址管理',
+    'redirect-url': 'B面跳转地址管理',
     'region-blacklist': 'IP地区黑名单',
-    'region-whitelist': 'IP地区白名单'
+    'region-whitelist': 'IP地区白名单',
+    'url-handle-log': '链接失效处理'
   },
   page: {
     common: {
       createdAt: '创建时间',
       updatedAt: '更新时间',
       remark: '备注',
+      isEnable: '是否启用',
       placeholder: {
         remark: '请填写备注信息'
       }
@@ -266,17 +270,32 @@ const local: App.I18n.Schema = {
         redirectGroupCode: '请选择跳转地址'
       }
     },
-    redirectUrl: {
-      title: '跳转地址列表',
+    apiUrl: {
+      title: 'A面接口地址列表',
       groupCode: '分组代码',
-      isEnable: '是否启用',
-      url: '跳转地址',
-      addInfo: '添加跳转',
-      editInfo: '编辑跳转',
+      isReserved: '是否备用',
+      url: '链接地址',
+      addInfo: '添加链接',
+      editInfo: '编辑链接',
       order: '优先级',
       placeholder: {
         groupCode: '请输入分组代码',
-        url: '请输入跳转地址'
+        url: '请输入链接地址'
+      }
+    },
+    redirectUrl: {
+      title: 'B面跳转地址列表',
+      groupCode: '分组代码',
+      isEnable: '是否启用',
+      url: '跳转链接',
+      checkUrl: '测试链接',
+      addInfo: '添加链接',
+      editInfo: '编辑链接',
+      order: '优先级',
+      placeholder: {
+        groupCode: '请输入分组代码',
+        url: '请输入链接地址',
+        checkUrl: '请输入测试链接'
       }
     },
     regionBlacklist: {
@@ -303,6 +322,22 @@ const local: App.I18n.Schema = {
         region: '请选择地区',
         sub_region_codes: '请选择子地区',
         isEnable: '请选择是否启用'
+      }
+    },
+    urlHandleLog: {
+      title: '链接失效处理列表',
+      region: '地区',
+      subRegionCode: '子地区',
+      status: '处理结果',
+      editInfo: '审核链接',
+      httpStatus: '请求状态码',
+      clientIP: '客户端IP',
+      clientIPRegion: 'IP所属地区',
+      clientIPSubRegion: 'IP所属子地区',
+      placeholder: {
+        region: '请选择地区',
+        subRegionCode: '请选择子地区',
+        status: '请选择处理结果'
       }
     }
   },
@@ -331,6 +366,10 @@ const local: App.I18n.Schema = {
     email: {
       required: '请输入邮箱',
       invalid: '邮箱格式不正确'
+    },
+    url: {
+      required: '请输入URL',
+      invalid: 'URL格式不正确'
     }
   },
   dropdown: {

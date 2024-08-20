@@ -20,6 +20,7 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
+    "api-url": "/api-url";
     "app-manage": "/app-manage";
     "home": "/home";
     "iframe-page": "/iframe-page/:url";
@@ -27,6 +28,7 @@ declare module "@elegant-router/types" {
     "redirect-url": "/redirect-url";
     "region-blacklist": "/region-blacklist";
     "region-whitelist": "/region-whitelist";
+    "url-handle-log": "/url-handle-log";
   };
 
   /**
@@ -61,6 +63,7 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
+    | "api-url"
     | "app-manage"
     | "home"
     | "iframe-page"
@@ -68,6 +71,7 @@ declare module "@elegant-router/types" {
     | "redirect-url"
     | "region-blacklist"
     | "region-whitelist"
+    | "url-handle-log"
   >;
 
   /**
@@ -89,11 +93,13 @@ declare module "@elegant-router/types" {
     | "500"
     | "iframe-page"
     | "login"
+    | "api-url"
     | "app-manage"
     | "home"
     | "redirect-url"
     | "region-blacklist"
     | "region-whitelist"
+    | "url-handle-log"
   >;
 
   /**

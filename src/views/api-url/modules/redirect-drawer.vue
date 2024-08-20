@@ -28,12 +28,12 @@ const visible = defineModel<boolean>('visible', {
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule, formRules } = useFormRules();
+const { defaultRequiredRule } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.redirectUrl.addInfo'),
-    edit: $t('page.redirectUrl.editInfo')
+    add: $t('page.apiUrl.addInfo'),
+    edit: $t('page.apiUrl.editInfo')
   };
   return titles[props.operateType];
 });
@@ -44,23 +44,22 @@ const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    type: 1,
+    type: 0,
     group_code: '',
     url: '',
-    check_url: '',
     is_enable: 1,
     is_reserved: 0,
     remark: ''
   };
 }
 
-type RuleKey = Exclude<keyof Model, ['remark', 'is_reserved', 'type']>;
+type RuleKey = Exclude<keyof Model, ['remark']>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   group_code: defaultRequiredRule,
-  url: formRules.url,
-  check_url: formRules.url,
-  is_enable: defaultRequiredRule
+  url: defaultRequiredRule,
+  is_enable: defaultRequiredRule,
+  is_reserved: defaultRequiredRule
 };
 
 function handleInitModel() {
@@ -108,10 +107,10 @@ watch(visible, () => {
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
         <NInputNumber v-model:value="model.type" hidden="hidden" />
-        <NFormItem :label="$t('page.redirectUrl.groupCode')" path="group_code">
-          <NInput v-model:value="model.group_code" :placeholder="$t('page.redirectUrl.placeholder.groupCode')" />
+        <NFormItem :label="$t('page.apiUrl.groupCode')" path="group_code">
+          <NInput v-model:value="model.group_code" :placeholder="$t('page.apiUrl.placeholder.groupCode')" />
         </NFormItem>
-        <NFormItem :label="$t('page.redirectUrl.url')" path="url">
+        <NFormItem :label="$t('page.apiUrl.url')" path="url">
           <NInput
             v-model:value="model.url"
             type="textarea"
@@ -119,24 +118,16 @@ watch(visible, () => {
               minRows: 1,
               maxRows: 3
             }"
-            :placeholder="$t('page.redirectUrl.placeholder.url')"
+            :placeholder="$t('page.apiUrl.placeholder.url')"
           />
         </NFormItem>
-        <NFormItem :label="$t('page.redirectUrl.checkUrl')" path="check_url">
-          <NInput
-            v-model:value="model.check_url"
-            type="textarea"
-            :autosize="{
-              minRows: 1,
-              maxRows: 3
-            }"
-            :placeholder="$t('page.redirectUrl.placeholder.checkUrl')"
-          />
-        </NFormItem>
-        <NFormItem :label="$t('page.redirectUrl.isEnable')" path="is_enable">
+        <NFormItem :label="$t('page.common.isEnable')" path="is_enable">
           <NSwitch v-model:value="model.is_enable" :checked-value="1" :unchecked-value="0" />
         </NFormItem>
-        <NFormItem :label="$t('page.appManage.remark')" path="remark">
+        <NFormItem :label="$t('page.apiUrl.isReserved')" path="is_reserved">
+          <NSwitch v-model:value="model.is_reserved" :checked-value="1" :unchecked-value="0" />
+        </NFormItem>
+        <NFormItem :label="$t('page.common.remark')" path="remark">
           <NInput
             v-model:value="model.remark"
             type="textarea"

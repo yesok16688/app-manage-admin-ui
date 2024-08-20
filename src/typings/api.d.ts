@@ -92,10 +92,12 @@ declare namespace Api {
   namespace RedirectUrl {
     type RedirectUrlInfo = Common.CommonRecord<{
       id: number;
-      order: number;
+      type: number;
       group_code: string;
       url: string;
+      check_url: string;
       is_enable: number;
+      is_reserved: number;
       remark: string;
       created_at: string;
       updated_at: string;
@@ -105,7 +107,8 @@ declare namespace Api {
 
     /** user search params */
     type RedirectUrlSearchParams = CommonType.RecordNullable<
-      Pick<Api.RedirectUrl.RedirectUrlInfo, 'group_code' | 'is_enable' | 'url'> & Api.Common.CommonSearchParams
+      Pick<Api.RedirectUrl.RedirectUrlInfo, 'group_code' | 'is_enable' | 'url' | 'is_reserved' | 'type'> &
+        Api.Common.CommonSearchParams
     >;
   }
 
@@ -127,6 +130,38 @@ declare namespace Api {
     >;
   }
 
+  namespace UrlHandleLog {
+    type UrlHandleReviewInfo = {
+      status: number;
+      remark: string;
+    };
+
+    type UrlHandleLogInfo = Common.CommonRecord<{
+      id: number;
+      http_status: number;
+      status: number;
+      client_ip: string;
+      client_ip_region: string;
+      client_ip_sub_region: string;
+      created_at: string;
+      updated_at: string;
+      remark: string;
+      url: RedirectUrl.RedirectUrlInfo;
+    }>;
+
+    type UrlHandleLogList = Common.PaginatingQueryRecord<UrlHandleLogInfo>;
+
+    /** user search params */
+    type UrlHandleLogSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.UrlHandleLog.UrlHandleLogInfo,
+        'http_status' | 'status' | 'client_ip' | 'client_ip_region' | 'client_ip_sub_region'
+      > &
+        Api.Common.CommonSearchParams &
+        'group_code' &
+        'url'
+    >;
+  }
   /**
    * namespace Route
    *

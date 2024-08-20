@@ -166,13 +166,15 @@ const routeMap: RouteMap = {
   "403": "/403",
   "404": "/404",
   "500": "/500",
+  "api-url": "/api-url",
   "app-manage": "/app-manage",
   "home": "/home",
   "iframe-page": "/iframe-page/:url",
   "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
   "redirect-url": "/redirect-url",
   "region-blacklist": "/region-blacklist",
-  "region-whitelist": "/region-whitelist"
+  "region-whitelist": "/region-whitelist",
+  "url-handle-log": "/url-handle-log"
 };
 
 /**

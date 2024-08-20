@@ -20,9 +20,11 @@ export const views: Record<LastLevelRouteKey, RouteComponent | (() => Promise<Ro
   500: () => import("@/views/_builtin/500/index.vue"),
   "iframe-page": () => import("@/views/_builtin/iframe-page/[url].vue"),
   login: () => import("@/views/_builtin/login/index.vue"),
+  "api-url": () => import("@/views/api-url/index.vue"),
   "app-manage": () => import("@/views/app-manage/index.vue"),
   home: () => import("@/views/home/index.vue"),
   "redirect-url": () => import("@/views/redirect-url/index.vue"),
   "region-blacklist": () => import("@/views/region-blacklist/index.vue"),
   "region-whitelist": () => import("@/views/region-whitelist/index.vue"),
+  "url-handle-log": () => import("@/views/url-handle-log/index.vue"),
 };

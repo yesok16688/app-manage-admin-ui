@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm } from 'naive-ui';
+import { NButton } from 'naive-ui';
 import { fetchDeleteRedirectUrlInfo, fetchGetRedirectUrlList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -25,7 +25,7 @@ const {
   apiParams: {
     current_page: 1,
     per_page: 15,
-    type: 1,
+    type: 0,
     group_code: null,
     url: null,
     is_reserved: null,
@@ -45,25 +45,31 @@ const {
     },
     {
       key: 'group_code',
-      title: $t('page.redirectUrl.groupCode'),
+      title: $t('page.apiUrl.groupCode'),
       align: 'center',
       minWidth: 80
     },
     {
       key: 'url',
-      title: $t('page.redirectUrl.url'),
+      title: $t('page.apiUrl.url'),
       align: 'center',
       minWidth: 100
     },
     {
-      key: 'check_url',
-      title: $t('page.redirectUrl.checkUrl'),
+      key: 'is_reserved',
+      title: $t('page.apiUrl.isReserved'),
       align: 'center',
-      minWidth: 100
+      width: 80,
+      render: row => {
+        if (row.is_reserved === null) {
+          return null;
+        }
+        return row.is_reserved === 1 ? '是' : '否';
+      }
     },
     {
       key: 'is_enable',
-      title: $t('page.redirectUrl.isEnable'),
+      title: $t('page.common.isEnable'),
       align: 'center',
       width: 80,
       render: row => {
@@ -101,16 +107,6 @@ const {
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
-            }}
-          </NPopconfirm>
         </div>
       )
     }
@@ -149,7 +145,7 @@ function edit(id: number) {
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
     <Search v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
-    <NCard :title="$t('page.redirectUrl.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard :title="$t('page.apiUrl.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"
