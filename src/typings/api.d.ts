@@ -45,6 +45,12 @@ declare namespace Api {
       /** record status */
       status: EnableStatus | null;
     } & T;
+
+    type FileInfo = {
+      id: string;
+      file_name: string;
+      save_path: string;
+    };
   }
 
   /**
@@ -67,25 +73,42 @@ declare namespace Api {
   }
 
   namespace App {
+    type AppUrlInfo = {
+      id: number;
+      app_id: number;
+      is_enable: number;
+      is_reserved: number;
+      url: string;
+      check_url: string;
+    };
+    type AppLinkInfo = {
+      normal: number;
+      spare: number;
+      abnormal: number;
+    };
     type AppInfo = Common.CommonRecord<{
       id: number;
       name: string;
-      api_key: string;
-      region: string;
+      region_codes: string[];
       channel: number | null;
-      submit_status: number;
-      enable_redirect: number;
-      redirect_group_code: string | null;
+      a_urls: AppUrlInfo[];
+      b_urls: AppUrlInfo[];
+      a_link_info: App.AppLinkInfo;
+      b_link_info: App.AppLinkInfo;
       remark: string;
       created_at: string;
       updated_at: string;
+    }>;
+
+    type ExtraSearchInfo = Common.CommonRecord<{
+      region_code: string;
     }>;
 
     type AppList = Common.PaginatingQueryRecord<AppInfo>;
 
     /** user search params */
     type AppSearchParams = CommonType.RecordNullable<
-      Pick<Api.App.AppInfo, 'name' | 'region' | 'channel' | 'submit_status' | 'enable_redirect' | 'redirect_group_code'> & Api.Common.CommonSearchParams
+      Pick<Api.App.AppInfo, 'name' | 'channel'> & Api.Common.CommonSearchParams & Api.App.ExtraSearchInfo
     >;
   }
 
@@ -109,6 +132,60 @@ declare namespace Api {
     type RedirectUrlSearchParams = CommonType.RecordNullable<
       Pick<Api.RedirectUrl.RedirectUrlInfo, 'group_code' | 'is_enable' | 'url' | 'is_reserved' | 'type'> &
         Api.Common.CommonSearchParams
+    >;
+  }
+
+  namespace AppUrl {
+    type AppUrlInfo = {
+      id: number;
+      app_id: number;
+      type: number;
+      url: string;
+      check_url: string;
+      is_enable: number;
+      is_reserved: number;
+      remark: string;
+      created_at: string;
+      updated_at: string;
+    };
+
+    type AppUrlList = Common.PaginatingQueryRecord<AppUrlInfo>;
+
+    /** user search params */
+    type AppUrlSearchParams = CommonType.RecordNullable<
+      Pick<Api.AppUrl.AppUrlInfo, 'app_id' | 'is_enable' | 'is_reserved' | 'type'> & Api.Common.CommonSearchParams
+    >;
+  }
+
+  namespace AppVersion {
+    type AppVersionInfo = {
+      id: number;
+      app_id: number;
+      app_name: string;
+      api_key: string;
+      version: string;
+      icon: Common.FileInfo | null;
+      imgs: Common.FileInfo[];
+      description: string;
+      download_link: string;
+      status: number;
+      device_blacklist: string;
+      ip_blacklist: string;
+      is_region_limit: number;
+      lang_blacklist: string[];
+      disable_jump: number;
+      ip_whitelist: string;
+      upgrade_mode: number;
+      remark: string;
+      created_at: string;
+      updated_at: string;
+    };
+
+    type AppVersionList = Common.PaginatingQueryRecord<AppVersionInfo>;
+
+    /** user search params */
+    type AppVersionSearchParams = CommonType.RecordNullable<
+      Pick<Api.AppVersion.AppVersionInfo, 'app_id' | 'app_name' | 'version' | 'status'> & Api.Common.CommonSearchParams
     >;
   }
 

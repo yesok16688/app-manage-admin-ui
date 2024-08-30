@@ -10,7 +10,6 @@ const pageOptions = getOptions();
 const regionOptions = pageOptions.common.region ? transformRecordToOption(pageOptions.common.region) : {};
 const channelOptions = pageOptions.common.channel ? transformRecordToNumberOption(pageOptions.common.channel) : {};
 const submitStatusOptions = pageOptions.app.submitStatus ? transformRecordToNumberOption(pageOptions.app.submitStatus) : {};
-const groupCodeOptions = pageOptions.app.groupCodes ? transformRecordToOption(pageOptions.app.groupCodes) : {};
 
 defineOptions({
   name: 'AppOperateDrawer'
@@ -53,13 +52,13 @@ const model: Model = reactive(createDefaultModel());
 function createDefaultModel(): Model {
   return {
     name: '',
-    api_key: '',
-    region: '',
+    region_codes: [],
     channel: null,
-    submit_status: 0,
-    enable_redirect: 0,
-    redirect_group_code: null,
-    remark: ''
+    a_urls: [],
+    b_urls: [],
+    remark: '',
+    created_at: '',
+    updated_at: ''
   };
 }
 
@@ -67,11 +66,10 @@ type RuleKey = Exclude<keyof Model, ['remark', 'redirect_group_code']>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
   name: defaultRequiredRule,
-  api_key: defaultRequiredRule,
-  region: defaultRequiredRule,
+  region_codes: defaultRequiredRule,
   channel: defaultRequiredRule,
-  submit_status: defaultRequiredRule,
-  enable_redirect: defaultRequiredRule
+  a_urls: defaultRequiredRule,
+  b_urls: defaultRequiredRule
 };
 
 function handleInitModel() {
@@ -84,16 +82,6 @@ function handleInitModel() {
 
 function closeDrawer() {
   visible.value = false;
-}
-
-function generateRandomString() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_@.+-~';
-  let result = '';
-  for (let i = 0; i < 16; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters[randomIndex];
-  }
-  model.api_key = result;
 }
 
 async function handleSubmit() {
@@ -132,16 +120,12 @@ watch(visible, () => {
         <NFormItem :label="$t('page.appManage.name')" path="name">
           <NInput v-model:value="model.name" :placeholder="$t('page.appManage.placeholder.name')" />
         </NFormItem>
-        <NFormItem :label="$t('page.appManage.apiKey')" path="name">
-          <NSpace>
-            <NInput v-model:value="model.api_key" disabled />
-            <NButton @click="generateRandomString">生成</NButton>
-          </NSpace>
-        </NFormItem>
-        <NFormItem :label="$t('page.appManage.region')" path="region">
+        <NFormItem :label="$t('page.appManage.region')" path="region_codes">
           <NSelect
-            v-model:value="model.region"
+            v-model:value="model.region_codes"
             filterable
+            multiple
+            clearable
             :options="regionOptions"
             :placeholder="$t('page.appManage.placeholder.region')"
           />
@@ -151,27 +135,6 @@ watch(visible, () => {
             v-model:value="model.channel"
             :options="channelOptions"
             :placeholder="$t('page.appManage.placeholder.channel')"
-          />
-        </NFormItem>
-        <NFormItem :label="$t('page.appManage.submitStatus')" path="submit_status">
-          <NSelect
-            v-model:value="model.submit_status"
-            :options="submitStatusOptions"
-            :placeholder="$t('page.appManage.placeholder.submitStatus')"
-          />
-        </NFormItem>
-        <NFormItem :label="$t('page.appManage.enableRedirect')" path="enable_redirect">
-          <NSwitch
-            v-model:value="model.enable_redirect"
-            :checked-value=1
-            :unchecked-value=0
-          />
-        </NFormItem>
-        <NFormItem :label="$t('page.appManage.redirectGroupCode')" path="redirect_group_code">
-          <NSelect
-            v-model:value="model.redirect_group_code"
-            :options="groupCodeOptions"
-            :placeholder="$t('page.appManage.placeholder.redirectGroupCode')"
           />
         </NFormItem>
         <NFormItem :label="$t('page.appManage.remark')" path="remark">
@@ -194,5 +157,4 @@ watch(visible, () => {
     </NDrawerContent>
   </NDrawer>
 </template>
-
 <style scoped></style>

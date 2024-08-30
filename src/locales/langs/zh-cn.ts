@@ -157,7 +157,8 @@ const local: App.I18n.Schema = {
     'iframe-page': '外链页面',
     home: '首页',
     'app-manage': '应用管理',
-    'api-url': 'A面接口地址管理',
+    'app-url-manage': '应用链接管理 ',
+    'app-version-manage': '应用版本管理',
     'redirect-url': 'B面跳转地址管理',
     'region-blacklist': 'IP地区黑名单',
     'region-whitelist': 'IP地区白名单',
@@ -167,8 +168,11 @@ const local: App.I18n.Schema = {
     common: {
       createdAt: '创建时间',
       updatedAt: '更新时间',
+      Time: '时间',
       remark: '备注',
       isEnable: '是否启用',
+      add: '添加',
+      edit: '编辑',
       placeholder: {
         remark: '请填写备注信息'
       }
@@ -252,7 +256,6 @@ const local: App.I18n.Schema = {
     appManage: {
       title: '应用列表',
       name: '名称',
-      apiKey: '接口密钥',
       region: '地区',
       channel: '渠道',
       submitStatus: '提审状态',
@@ -260,7 +263,11 @@ const local: App.I18n.Schema = {
       remark: '备注',
       addApp: '添加应用',
       editApp: '编辑应用',
+      latestStatus: '最新版本',
+      alink: 'A链接',
+      blink: 'B链接',
       redirectGroupCode: '跳转地址分组码',
+      appVersion: '版本管理',
       placeholder: {
         name: '请输入名称',
         region: '请选择地区',
@@ -297,6 +304,39 @@ const local: App.I18n.Schema = {
         url: '请输入链接地址',
         checkUrl: '请输入测试链接'
       }
+    },
+    appUrl: {
+      name: '应用名称',
+      type: '链接类型',
+      title: '应用链接管理',
+      isReserved: '是否备用',
+      isEnable: '是否启用',
+      url: '链接地址',
+      checkUrl: '测速地址',
+      addInfo: '添加',
+      editInfo: '编辑',
+      placeholder: {
+        url: '请输入链接地址',
+        checkUrl: '请输入测试链接'
+      }
+    },
+    appVersion: {
+      name: '应用名称',
+      api_key: '接口密钥',
+      title: '应用版本管理',
+      version: '版本号',
+      icon: '应用图标',
+      imgs: '应用截图',
+      description: '应用说明',
+      download_link: '下载链接',
+      status: '提审状态',
+      device_blacklist: '设备限制名单',
+      ip_blacklist: 'IP限制名单',
+      is_region_limit: '区域限制（限制除发布地区以外的地区访问）',
+      lang_blacklist: '设备语言限制名单',
+      disable_jump: '全局关闭（强制关闭所有跳转）',
+      ip_whitelist: 'IP白名单',
+      upgrade_mode: '版本升级模式'
     },
     regionBlacklist: {
       title: 'IP地区黑名单列表',

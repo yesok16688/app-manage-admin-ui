@@ -40,16 +40,6 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
-    name: 'api-url',
-    path: '/api-url',
-    component: 'layout.base$view.api-url',
-    meta: {
-      order: 3,
-      title: 'api-url',
-      i18nKey: 'route.api-url'
-    }
-  },
-  {
     name: 'app-manage',
     path: '/app-manage',
     component: 'layout.base$view.app-manage',
@@ -58,6 +48,27 @@ export const generatedRoutes: GeneratedRoute[] = [
       title: 'app-manage',
       i18nKey: 'route.app-manage',
       icon: 'mdi:apps'
+    }
+  },
+  {
+    name: 'app-url-manage',
+    path: '/app-url-manage',
+    component: 'layout.base$view.app-url-manage',
+    meta: {
+      title: 'app-url-manage',
+      i18nKey: 'route.app-url-manage',
+      hideInMenu: true
+    }
+  },
+  {
+    name: 'app-version-manage',
+    path: '/app-version-manage',
+    component: 'layout.base$view.app-version-manage',
+    meta: {
+      order: 3,
+      title: 'app-version-manage',
+      i18nKey: 'route.app-version-manage',
+      hideInMenu: true
     }
   },
   {
@@ -104,7 +115,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 3,
       title: 'redirect-url',
       i18nKey: 'route.redirect-url',
-      icon: 'mdi:curling'
+      icon: 'mdi:curling',
+      hideInMenu: true
     }
   },
   {
@@ -115,7 +127,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 4,
       title: 'region-blacklist',
       i18nKey: 'route.region-blacklist',
-      icon: 'mdi:file-document-minus'
+      icon: 'mdi:file-document-minus',
+      hideInMenu: true
     }
   },
   {
@@ -126,7 +139,8 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 4,
       title: 'region-whitelist',
       i18nKey: 'route.region-whitelist',
-      icon: 'mdi:file-document-check'
+      icon: 'mdi:file-document-check',
+      hideInMenu: true
     }
   },
   {

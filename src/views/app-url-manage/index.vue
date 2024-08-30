@@ -1,42 +1,27 @@
 <script setup lang="tsx">
 import { NButton } from 'naive-ui';
-import { fetchDeleteRedirectUrlInfo, fetchGetRedirectUrlList } from '@/service/api';
+import { useRoute } from 'vue-router';
+import { fetchGetAppUrlList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
-import OperateDrawer from './modules/redirect-drawer.vue';
-import Search from './modules/redirect-search.vue';
+import OperateDrawer from './modules/app-url-drawer.vue';
 
+const route = useRoute();
 const appStore = useAppStore();
 
-const {
-  columns,
-  columnChecks,
-  data,
-  getData,
-  getDataByPage,
-  loading,
-  mobilePagination,
-  searchParams,
-  resetSearchParams
-} = useTable({
-  apiFn: fetchGetRedirectUrlList,
+const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagination } = useTable({
+  apiFn: fetchGetAppUrlList,
   showTotal: true,
   apiParams: {
     current_page: 1,
     per_page: 15,
-    type: 0,
-    group_code: null,
-    url: null,
-    is_reserved: null,
-    is_enable: null
+    app_id: route.query.app_id ? Number(route.query.app_id) : null,
+    type: route.query.type ? Number(route.query.type) : null,
+    is_reserved: route.query.is_reserved ? Number(route.query.is_reserved) : null,
+    is_enable: route.query.is_enable ? Number(route.query.is_enable) : null
   },
   columns: () => [
-    {
-      type: 'selection',
-      align: 'center',
-      width: 48
-    },
     {
       key: 'index',
       title: $t('common.index'),
@@ -44,20 +29,44 @@ const {
       width: 64
     },
     {
-      key: 'group_code',
-      title: $t('page.apiUrl.groupCode'),
+      key: 'name',
+      title: $t('page.appUrl.name'),
       align: 'center',
-      minWidth: 80
+      minWidth: 100,
+      render: row => {
+        if (row.app === null) {
+          return '-';
+        }
+        return row.app.name;
+      }
+    },
+    {
+      key: 'type',
+      title: $t('page.appUrl.type'),
+      align: 'center',
+      width: 80,
+      render: row => {
+        if (row.is_enable === null) {
+          return null;
+        }
+        return row.is_enable === 1 ? 'B链接' : 'A链接';
+      }
     },
     {
       key: 'url',
-      title: $t('page.apiUrl.url'),
+      title: $t('page.appUrl.url'),
       align: 'center',
-      minWidth: 100
+      minWidth: 120
+    },
+    {
+      key: 'check_url',
+      title: $t('page.appUrl.checkUrl'),
+      align: 'center',
+      minWidth: 120
     },
     {
       key: 'is_reserved',
-      title: $t('page.apiUrl.isReserved'),
+      title: $t('page.appUrl.isReserved'),
       align: 'center',
       width: 80,
       render: row => {
@@ -69,7 +78,7 @@ const {
     },
     {
       key: 'is_enable',
-      title: $t('page.common.isEnable'),
+      title: $t('page.appUrl.isEnable'),
       align: 'center',
       width: 80,
       render: row => {
@@ -81,15 +90,17 @@ const {
     },
     {
       key: 'created_at',
-      title: $t('page.common.createdAt'),
+      title: $t('page.common.Time'),
       align: 'center',
-      minWidth: 80
-    },
-    {
-      key: 'updated_at',
-      title: $t('page.common.updatedAt'),
-      align: 'center',
-      minWidth: 80
+      width: 220,
+      render: row => {
+        return (
+          <div>
+            {$t('page.common.createdAt')}: {row.created_at}
+            {$t('page.common.updatedAt')}: {row.updated_at}
+          </div>
+        );
+      }
     },
     {
       key: 'remark',
@@ -113,28 +124,12 @@ const {
   ]
 });
 
-const {
-  drawerVisible,
-  operateType,
-  editingData,
-  handleAdd,
-  handleEdit,
-  checkedRowKeys,
-  onBatchDeleted,
-  onDeleted
-  // closeDrawer
-} = useTableOperate(data, getData);
+const { drawerVisible, operateType, editingData, handleAdd, handleEdit, checkedRowKeys, onBatchDeleted } =
+  useTableOperate(data, getData);
 
 async function handleBatchDelete() {
   // request
   onBatchDeleted();
-}
-
-async function handleDelete(id: number) {
-  const { error } = await fetchDeleteRedirectUrlInfo(id);
-  if (!error) {
-    onDeleted();
-  }
 }
 
 function edit(id: number) {
@@ -144,8 +139,7 @@ function edit(id: number) {
 
 <template>
   <div class="min-h-500px flex-col-stretch gap-16px overflow-hidden lt-sm:overflow-auto">
-    <Search v-model:model="searchParams" @reset="resetSearchParams" @search="getDataByPage" />
-    <NCard :title="$t('page.apiUrl.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
+    <NCard :title="$t('page.appUrl.title')" :bordered="false" size="small" class="sm:flex-1-hidden card-wrapper">
       <template #header-extra>
         <TableHeaderOperation
           v-model:columns="columnChecks"

@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
-import { fetchCreateRedirectUrlInfo, fetchUpdateRedirectUrlInfo } from '@/service/api';
+import { fetchCreateAppUrlInfo, fetchUpdateAppUrlInfo } from '@/service/api';
 
 defineOptions({
-  name: 'RedirectUrlOperateDrawer'
+  name: 'AppUrlOperateDrawer'
 });
+
+const route = useRoute();
 
 interface Props {
   /** the type of operation */
   operateType: NaiveUI.TableOperateType;
   /** the edit row data */
-  rowData?: Api.RedirectUrl.RedirectUrlInfo | null;
+  rowData?: Api.AppUrl.AppUrlInfo | null;
 }
 
 const props = defineProps<Props>();
@@ -28,38 +31,38 @@ const visible = defineModel<boolean>('visible', {
 });
 
 const { formRef, validate, restoreValidation } = useNaiveForm();
-const { defaultRequiredRule } = useFormRules();
+const { defaultRequiredRule, formRules, patternRules } = useFormRules();
 
 const title = computed(() => {
   const titles: Record<NaiveUI.TableOperateType, string> = {
-    add: $t('page.apiUrl.addInfo'),
-    edit: $t('page.apiUrl.editInfo')
+    add: $t('page.appUrl.addInfo'),
+    edit: $t('page.appUrl.editInfo')
   };
   return titles[props.operateType];
 });
 
-type Model = Api.RedirectUrl.RedirectUrlInfo;
+type Model = Api.AppUrl.AppUrlInfo;
 
 const model: Model = reactive(createDefaultModel());
 
 function createDefaultModel(): Model {
   return {
-    type: 0,
-    group_code: '',
+    app_id: Number(route.query.app_id),
+    type: Number(route.query.type),
     url: '',
+    check_url: '',
     is_enable: 1,
-    is_reserved: 0,
+    is_reserved: Number(route.query.is_reserved),
     remark: ''
   };
 }
 
-type RuleKey = Exclude<keyof Model, ['remark']>;
+type RuleKey = Exclude<keyof Model, ['remark', 'is_reserved']>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  group_code: defaultRequiredRule,
-  url: defaultRequiredRule,
-  is_enable: defaultRequiredRule,
-  is_reserved: defaultRequiredRule
+  url: formRules.url,
+  check_url: patternRules.url,
+  is_enable: defaultRequiredRule
 };
 
 function handleInitModel() {
@@ -78,14 +81,14 @@ async function handleSubmit() {
   await validate();
 
   if (props.operateType === 'add') {
-    const { error } = await fetchCreateRedirectUrlInfo(model);
+    const { error } = await fetchCreateAppUrlInfo(model);
     if (!error) {
-      window.$message?.success($t('common.updateSuccess'));
+      window.$message?.success($t('common.addSuccess'));
       closeDrawer();
       emit('submitted');
     }
   } else {
-    const { error } = await fetchUpdateRedirectUrlInfo(props.rowData.id, model);
+    const { error } = await fetchUpdateAppUrlInfo(props.rowData.id, model);
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
       closeDrawer();
@@ -106,11 +109,9 @@ watch(visible, () => {
   <NDrawer v-model:show="visible" display-directive="show" :width="500">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
       <NForm ref="formRef" :model="model" :rules="rules">
+        <NInputNumber v-model:value="model.app_id" hidden="hidden" />
         <NInputNumber v-model:value="model.type" hidden="hidden" />
-        <NFormItem :label="$t('page.apiUrl.groupCode')" path="group_code">
-          <NInput v-model:value="model.group_code" :placeholder="$t('page.apiUrl.placeholder.groupCode')" />
-        </NFormItem>
-        <NFormItem :label="$t('page.apiUrl.url')" path="url">
+        <NFormItem :label="$t('page.appUrl.url')" path="url">
           <NInput
             v-model:value="model.url"
             type="textarea"
@@ -118,16 +119,32 @@ watch(visible, () => {
               minRows: 1,
               maxRows: 3
             }"
-            :placeholder="$t('page.apiUrl.placeholder.url')"
+            :placeholder="$t('page.appUrl.placeholder.url')"
           />
         </NFormItem>
-        <NFormItem :label="$t('page.common.isEnable')" path="is_enable">
+        <NFormItem :label="$t('page.appUrl.checkUrl')" path="check_url" v-if="model.type == 1">
+          <NInput
+            v-model:value="model.check_url"
+            type="textarea"
+            :autosize="{
+              minRows: 1,
+              maxRows: 3
+            }"
+            :placeholder="$t('page.appUrl.placeholder.checkUrl')"
+          />
+        </NFormItem>
+        <NFormItem :label="$t('page.appUrl.isEnable')" path="is_enable">
           <NSwitch v-model:value="model.is_enable" :checked-value="1" :unchecked-value="0" />
         </NFormItem>
-        <NFormItem :label="$t('page.apiUrl.isReserved')" path="is_reserved">
-          <NSwitch v-model:value="model.is_reserved" :checked-value="1" :unchecked-value="0" />
+        <NFormItem :label="$t('page.appUrl.isReserved')" path="is_reserved">
+          <NSwitch
+            v-model:value="model.is_reserved"
+            :checked-value="1"
+            :unchecked-value="0"
+            :disabled="true"
+          />
         </NFormItem>
-        <NFormItem :label="$t('page.common.remark')" path="remark">
+        <NFormItem :label="$t('page.appManage.remark')" path="remark">
           <NInput
             v-model:value="model.remark"
             type="textarea"

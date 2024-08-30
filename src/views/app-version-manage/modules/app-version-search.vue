@@ -49,7 +49,7 @@ async function search() {
           <NGrid responsive="screen" item-responsive>
             <NFormItemGi
               span="24 s:12 m:6"
-              :label="$t('page.apiUrl.groupCode')"
+              :label="$t('page.redirectUrl.groupCode')"
               path="group_code"
               class="pr-24px"
             >
@@ -59,29 +59,17 @@ async function search() {
                 clearable
               />
             </NFormItemGi>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('page.apiUrl.url')" path="url" class="pr-24px">
-              <NInput v-model:value="model.url" :placeholder="$t('page.apiUrl.placeholder.url')" />
+            <NFormItemGi span="24 s:12 m:6" :label="$t('page.redirectUrl.url')" path="url" class="pr-24px">
+              <NInput v-model:value="model.url" :placeholder="$t('page.redirectUrl.placeholder.url')" />
             </NFormItemGi>
             <NFormItemGi
               span="24 s:12 m:6"
-              :label="$t('page.common.isEnable')"
+              :label="$t('page.redirectUrl.isEnable')"
               path="is_enable"
               class="pr-24px"
             >
               <NSelect
                 v-model:value="model.is_enable"
-                :options="yesOrNoOptions"
-                clearable
-              />
-            </NFormItemGi>
-            <NFormItemGi
-              span="24 s:12 m:6"
-              :label="$t('page.apiUrl.isReserved')"
-              path="is_reserved"
-              class="pr-24px"
-            >
-              <NSelect
-                v-model:value="model.is_reserved"
                 :options="yesOrNoOptions"
                 clearable
               />

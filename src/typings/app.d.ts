@@ -401,7 +401,10 @@ declare namespace App {
         common: {
           createdAt: string;
           updatedAt: string;
+          Time: string;
           isEnable: string;
+          add: string;
+          edit: string;
           remark: string;
           placeholder: {
             remark: string;
@@ -494,6 +497,10 @@ declare namespace App {
           addApp: string;
           editApp: string;
           redirectGroupCode: string;
+          appVersion: string;
+          latestStatus: string;
+          alink: string;
+          blink: string;
           placeholder: {
             name: string;
             region: string;
@@ -530,6 +537,39 @@ declare namespace App {
             url: string;
             checkUrl: string;
           };
+        };
+        appUrl: {
+          name: string;
+          type: string;
+          title: string;
+          isReserved: string;
+          isEnable: string;
+          url: string;
+          checkUrl: string;
+          addInfo: string;
+          editInfo: string;
+          placeholder: {
+            url: string;
+            checkUrl: string;
+          };
+        };
+        appVersion: {
+          name: string;
+          api_key: string;
+          title: string;
+          version: string;
+          icon: string;
+          imgs: string;
+          description: string;
+          download_link: string;
+          status: string;
+          device_blacklist: string;
+          ip_blacklist: string;
+          is_region_limit: string;
+          lang_blacklist: string;
+          disable_jump: string;
+          ip_whitelist: string;
+          upgrade_mode: string;
         };
         regionBlacklist: {
           title: string;
