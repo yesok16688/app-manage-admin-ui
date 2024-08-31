@@ -6,6 +6,7 @@ import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import OperateDrawer from './modules/app-url-drawer.vue';
+import JSEncrypt from 'jsencrypt';
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -56,7 +57,18 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
       key: 'url',
       title: $t('page.appUrl.url'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.url === null) {
+          return null;
+        }
+        console.log('row.url', row.url);
+        const encryptor = new JSEncrypt();
+        encryptor.setPublicKey(appStore.getRsaKey());
+        const uncrypted = encryptor.decrypt(row.url);
+        console.log('uncrypted', uncrypted);
+        return uncrypted;
+      }
     },
     {
       key: 'check_url',

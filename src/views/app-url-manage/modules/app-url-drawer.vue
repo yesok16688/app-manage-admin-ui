@@ -60,8 +60,7 @@ function createDefaultModel(): Model {
 type RuleKey = Exclude<keyof Model, ['remark', 'is_reserved']>;
 
 const rules: Record<RuleKey, App.Global.FormRule> = {
-  url: formRules.url,
-  check_url: patternRules.url,
+  url: defaultRequiredRule,
   is_enable: defaultRequiredRule
 };
 

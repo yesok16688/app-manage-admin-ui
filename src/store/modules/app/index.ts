@@ -31,6 +31,16 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
   /** Is mobile layout */
   const isMobile = breakpoints.smaller('sm');
 
+  const rsaKey = ref('');
+
+  function saveRsaKey(key: string) {
+    rsaKey.value = key;
+  }
+
+  function getRsaKey(): string {
+    return rsaKey.value;
+  }
+
   /**
    * Reload page
    *
@@ -160,6 +170,8 @@ export const useAppStore = defineStore(SetupStoreId.App, () => {
     toggleSiderCollapse,
     mixSiderFixed,
     setMixSiderFixed,
-    toggleMixSiderFixed
+    toggleMixSiderFixed,
+    saveRsaKey,
+    getRsaKey
   };
 });

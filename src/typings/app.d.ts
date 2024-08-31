@@ -326,6 +326,7 @@ declare namespace App {
         update: string;
         updateSuccess: string;
         userCenter: string;
+        rsaKey: string;
         yesOrNo: {
           yes: string;
           no: string;

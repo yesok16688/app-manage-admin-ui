@@ -50,8 +50,8 @@ const {
       width: 64
     },
     {
-      key: 'url.group_code',
-      title: $t('page.redirectUrl.groupCode'),
+      key: 'url.app.name',
+      title: $t('page.appManage.name'),
       align: 'center',
       minWidth: 80
     },
@@ -89,19 +89,19 @@ const {
       }
     },
     {
-      key: 'url.http_status',
+      key: 'http_status',
       title: $t('page.urlHandleLog.httpStatus'),
       align: 'center',
       minWidth: 80
     },
     {
-      key: 'url.client_ip',
+      key: 'client_ip',
       title: $t('page.urlHandleLog.clientIP'),
       align: 'center',
       minWidth: 80
     },
     {
-      key: 'url.client_ip_region',
+      key: 'client_ip_region',
       title: $t('page.urlHandleLog.clientIPRegion'),
       align: 'center',
       minWidth: 80
@@ -135,11 +135,26 @@ const {
       title: $t('common.operate'),
       align: 'center',
       width: 130,
-      render: row => (
-        <div class="flex-center gap-8px">
-          <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
-            {$t('common.review')}
-          </NButton>
+      render: row => {
+        console.log(row.status, row.status === 0);
+        if(row.status === 0) {
+          return <div class="flex-center gap-8px">
+            <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
+              {$t('common.review')}
+            </NButton>
+            <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
+              {{
+                default: () => $t('common.confirmDelete'),
+                trigger: () => (
+                  <NButton type="error" ghost size="small">
+                    {$t('common.delete')}
+                  </NButton>
+                )
+              }}
+            </NPopconfirm>
+          </div>
+        }
+        return <div class="flex-center gap-8px">
           <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
             {{
               default: () => $t('common.confirmDelete'),
@@ -151,7 +166,8 @@ const {
             }}
           </NPopconfirm>
         </div>
-      )
+
+      }
     }
   ]
 });

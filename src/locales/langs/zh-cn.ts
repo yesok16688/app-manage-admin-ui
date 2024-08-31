@@ -45,6 +45,7 @@ const local: App.I18n.Schema = {
     update: '更新',
     updateSuccess: '更新成功',
     userCenter: '个人中心',
+    rsaKey: '全局密钥',
     yesOrNo: {
       yes: '是',
       no: '否'
@@ -162,7 +163,7 @@ const local: App.I18n.Schema = {
     'redirect-url': 'B面跳转地址管理',
     'region-blacklist': 'IP地区黑名单',
     'region-whitelist': 'IP地区白名单',
-    'url-handle-log': '链接失效处理'
+    'url-handle-log': '异常链接管理'
   },
   page: {
     common: {
@@ -365,7 +366,7 @@ const local: App.I18n.Schema = {
       }
     },
     urlHandleLog: {
-      title: '链接失效处理列表',
+      title: '异常链接管理',
       region: '地区',
       subRegionCode: '子地区',
       status: '处理结果',
