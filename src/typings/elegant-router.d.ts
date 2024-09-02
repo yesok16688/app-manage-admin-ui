@@ -20,6 +20,7 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
+    "app-event-manage": "/app-event-manage";
     "app-manage": "/app-manage";
     "app-url-manage": "/app-url-manage";
     "app-version-manage": "/app-version-manage";
@@ -64,6 +65,7 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
+    | "app-event-manage"
     | "app-manage"
     | "app-url-manage"
     | "app-version-manage"
@@ -95,6 +97,7 @@ declare module "@elegant-router/types" {
     | "500"
     | "iframe-page"
     | "login"
+    | "app-event-manage"
     | "app-manage"
     | "app-url-manage"
     | "app-version-manage"

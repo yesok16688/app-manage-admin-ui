@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton } from 'naive-ui';
+import {NButton, NEllipsis} from 'naive-ui';
 import { useRoute } from 'vue-router';
 import { fetchGetAppUrlList } from '@/service/api';
 import { $t } from '@/locales';
@@ -62,19 +62,30 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         if (row.url === null) {
           return null;
         }
-        console.log('row.url', row.url);
-        const encryptor = new JSEncrypt();
-        encryptor.setPublicKey(appStore.getRsaKey());
-        const uncrypted = encryptor.decrypt(row.url);
-        console.log('uncrypted', uncrypted);
-        return uncrypted;
+        // console.log('row.url', row.url);
+        // const encryptor = new JSEncrypt();
+        // encryptor.setPublicKey(appStore.getRsaKey());
+        // const uncrypted = encryptor.decrypt(row.url);
+        // console.log('uncrypted', uncrypted);
+        return <NEllipsis line-clamp="2">{row.url}</NEllipsis>;
       }
     },
     {
       key: 'check_url',
       title: $t('page.appUrl.checkUrl'),
       align: 'center',
-      minWidth: 120
+      minWidth: 120,
+      render: row => {
+        if (row.check_url === null) {
+          return null;
+        }
+        // console.log('row.url', row.url);
+        // const encryptor = new JSEncrypt();
+        // encryptor.setPublicKey(appStore.getRsaKey());
+        // const uncrypted = encryptor.decrypt(row.url);
+        // console.log('uncrypted', uncrypted);
+        return <NEllipsis line-clamp="2">{row.check_url}</NEllipsis>;
+      }
     },
     {
       key: 'is_reserved',

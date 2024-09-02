@@ -572,6 +572,19 @@ declare namespace App {
           ip_whitelist: string;
           upgrade_mode: string;
         };
+        appEvent: {
+          name: string;
+          title: string;
+          event_code: string;
+          client_ip: string;
+          device_id: string;
+          lang_code: string;
+          domain: string;
+          sub_event_code: string;
+          region: string;
+          app_version_id: string;
+          created_at: string;
+        };
         regionBlacklist: {
           title: string;
           region: string;
@@ -608,6 +621,7 @@ declare namespace App {
           clientIP: string;
           clientIPRegion: string;
           clientIPSubRegion: string;
+          distinct_ip_count: string;
           placeholder: {
             region: string;
             subRegionCode: string;

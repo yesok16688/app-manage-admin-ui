@@ -96,8 +96,19 @@ watch(visible, () => {
 </script>
 
 <template>
-  <NDrawer v-model:show="visible" display-directive="show" :width="300">
+  <NDrawer v-model:show="visible" display-directive="show" :width="500">
     <NDrawerContent :title="title" :native-scrollbar="false" closable>
+      <NFormItem :label="$t('page.apiUrl.url')" path="url">
+        <NInput
+          v-model:value="model.url.url"
+          type="textarea"
+          :placeholder="$t('page.appManage.placeholder.name')"
+          :autosize="{
+            minRows: 2,
+            maxRows: 10
+          }"
+        />
+      </NFormItem>
       <NForm ref="formRef" :model="model" :rules="rules">
         <NFormItem :label="$t('page.urlHandleLog.status')" path="is_enable">
           <NSelect v-model:value="model.status" :options="handleStatusOptions" clearable />

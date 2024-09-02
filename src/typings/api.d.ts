@@ -46,6 +46,8 @@ declare namespace Api {
       status: EnableStatus | null;
     } & T;
 
+    type SearchCreatedTime = [string, string];
+
     type FileInfo = {
       id: string;
       file_name: string;
@@ -186,6 +188,59 @@ declare namespace Api {
     /** user search params */
     type AppVersionSearchParams = CommonType.RecordNullable<
       Pick<Api.AppVersion.AppVersionInfo, 'app_id' | 'app_name' | 'version' | 'status'> & Api.Common.CommonSearchParams
+    >;
+  }
+
+  namespace AppEvent {
+    type AppEventInfo = {
+      id: number;
+      app_version_id: number;
+      event_code: string;
+      sub_event_code: string;
+      client_ip: string;
+      client_ip_region_code: string;
+      client_ip_sub_region_code: string;
+      device_id: string;
+      lang_code: string;
+      domain: string;
+      remark: string;
+      created_at: string;
+      updated_at: string;
+      version: AppEvent.AppVersionInfo;
+    };
+
+    type AppVersionInfo = {
+      id: number;
+      app_name: string;
+      app: AppEvent.AppInfo;
+    };
+
+    type AppInfo = {
+      name: string;
+    };
+
+    type AppEventList = Common.PaginatingQueryRecord<AppEventInfo>;
+
+    type ExtraSearchInfo = {
+      created_at: Common.SearchCreatedTime;
+    };
+
+    /** user search params */
+    type AppEventSearchParams = CommonType.RecordNullable<
+      Pick<
+        Api.AppEvent.AppEventInfo,
+        | 'app_version_id'
+        | 'event_code'
+        | 'sub_event_code'
+        | 'client_ip'
+        | 'client_ip_region_code'
+        | 'client_ip_sub_region_code'
+        | 'device_id'
+        | 'lang_code'
+        | 'domain'
+      > &
+        Api.Common.CommonSearchParams &
+        AppEvent.ExtraSearchInfo
     >;
   }
 

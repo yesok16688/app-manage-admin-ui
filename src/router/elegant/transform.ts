@@ -166,6 +166,7 @@ const routeMap: RouteMap = {
   "403": "/403",
   "404": "/404",
   "500": "/500",
+  "app-event-manage": "/app-event-manage",
   "app-manage": "/app-manage",
   "app-url-manage": "/app-url-manage",
   "app-version-manage": "/app-version-manage",

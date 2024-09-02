@@ -50,7 +50,7 @@ function refresh() {
         </template>
         {{ $t('common.add') }}
       </NButton>
-      <NPopconfirm v-if="showDelete"  @positive-click="batchDelete">
+      <NPopconfirm v-if="showDelete" @positive-click="batchDelete">
         <template #trigger>
           <NButton size="small" ghost type="error" :disabled="disabledDelete">
             <template #icon>

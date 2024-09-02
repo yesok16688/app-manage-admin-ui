@@ -47,12 +47,6 @@ async function search() {
       <NCollapseItem :title="$t('common.search')" name="user-search">
         <NForm ref="formRef" :model="model" :rules="rules" label-placement="left" :label-width="80">
           <NGrid responsive="screen" item-responsive>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('page.redirectUrl.groupCode')" path="group_code" class="pr-24px">
-              <NSelect v-model:value="model.group_code" :options="groupCodeOptions" clearable />
-            </NFormItemGi>
-            <NFormItemGi span="24 s:12 m:6" :label="$t('page.apiUrl.url')" path="url" class="pr-24px">
-              <NInput v-model:value="model.url" :placeholder="$t('page.apiUrl.placeholder.url')" clearable />
-            </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.urlHandleLog.status')" path="status" class="pr-24px">
               <NSelect
                 v-model:value="model.status"

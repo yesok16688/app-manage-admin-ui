@@ -40,6 +40,17 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'app-event-manage',
+    path: '/app-event-manage',
+    component: 'layout.base$view.app-event-manage',
+    meta: {
+      order: 6,
+      title: 'app-event-manage',
+      i18nKey: 'route.app-event-manage',
+      icon: 'mdi:calendar-month-outline'
+    }
+  },
+  {
     name: 'app-manage',
     path: '/app-manage',
     component: 'layout.base$view.app-manage',
@@ -151,7 +162,7 @@ export const generatedRoutes: GeneratedRoute[] = [
       order: 5,
       title: 'url-handle-log',
       i18nKey: 'route.url-handle-log',
-      icon: 'mdi:calendar-remove'
+      icon: 'mdi:file-document-remove-outline'
     }
   }
 ];

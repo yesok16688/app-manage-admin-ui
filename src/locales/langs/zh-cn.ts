@@ -163,7 +163,8 @@ const local: App.I18n.Schema = {
     'redirect-url': 'B面跳转地址管理',
     'region-blacklist': 'IP地区黑名单',
     'region-whitelist': 'IP地区白名单',
-    'url-handle-log': '异常链接管理'
+    'url-handle-log': '异常链接管理',
+    'app-event-manage': '事件上报日志'
   },
   page: {
     common: {
@@ -339,6 +340,19 @@ const local: App.I18n.Schema = {
       ip_whitelist: 'IP白名单',
       upgrade_mode: '版本升级模式'
     },
+    appEvent: {
+      name: '事件上报管理',
+      title: '事件上报列表',
+      event_code: '事件',
+      sub_event_code: '子事件',
+      client_ip: '客户端IP',
+      device_id: '设备识别码',
+      lang_code: '客户端语言',
+      domain: '请求域名',
+      region: '地区',
+      app_version_id: '应用版本ID',
+      created_at: '上报时间',
+    },
     regionBlacklist: {
       title: 'IP地区黑名单列表',
       region: '地区',
@@ -375,6 +389,7 @@ const local: App.I18n.Schema = {
       clientIP: '客户端IP',
       clientIPRegion: 'IP所属地区',
       clientIPSubRegion: 'IP所属子地区',
+      distinct_ip_count: '去重IP上报数',
       placeholder: {
         region: '请选择地区',
         subRegionCode: '请选择子地区',

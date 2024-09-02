@@ -52,7 +52,7 @@ function createDefaultModel(): Model {
     url: '',
     check_url: '',
     is_enable: 1,
-    is_reserved: Number(route.query.is_reserved),
+    is_reserved: route.query.is_reserved ? Number(route.query.is_reserved) : 0,
     remark: ''
   };
 }

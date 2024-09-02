@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { NButton, NPopconfirm, NTag } from 'naive-ui';
+import { NEllipsis, NButton, NPopconfirm, NTag } from 'naive-ui';
 import { fetchDeleteHandleLogInfo, fetchGetHandleLogList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -59,13 +59,14 @@ const {
       key: 'url.url',
       title: $t('page.apiUrl.url'),
       align: 'center',
-      minWidth: 100
+      minWidth: 150,
+      render: row => <NEllipsis line-clamp="2">{row.url.url}</NEllipsis>
     },
     {
       key: 'status',
       title: $t('page.urlHandleLog.status'),
       align: 'center',
-      width: 100,
+      minWidth: 80,
       render: row => {
         if (row.status === null) {
           return null;
@@ -89,46 +90,42 @@ const {
       }
     },
     {
-      key: 'http_status',
-      title: $t('page.urlHandleLog.httpStatus'),
+      key: 'distinct_ip_count',
+      title: $t('page.urlHandleLog.distinct_ip_count'),
       align: 'center',
-      minWidth: 80
-    },
-    {
-      key: 'client_ip',
-      title: $t('page.urlHandleLog.clientIP'),
-      align: 'center',
-      minWidth: 80
-    },
-    {
-      key: 'client_ip_region',
-      title: $t('page.urlHandleLog.clientIPRegion'),
-      align: 'center',
-      minWidth: 80
-    },
-    {
-      key: 'url.client_ip_sub_region',
-      title: $t('page.urlHandleLog.clientIPSubRegion'),
-      align: 'center',
-      minWidth: 80
-    },
-    {
-      key: 'created_at',
-      title: $t('page.common.createdAt'),
-      align: 'center',
-      minWidth: 80
-    },
-    {
-      key: 'updated_at',
-      title: $t('page.common.updatedAt'),
-      align: 'center',
-      minWidth: 80
+      minWidth: 100,
+      render: row => {
+        if(!row.distinct_ip_count) {
+          return '-';
+        }
+        return row.distinct_ip_count;
+      }
     },
     {
       key: 'remark',
       title: $t('page.common.remark'),
       align: 'center',
-      minWidth: 100
+      minWidth: 100,
+      render: row => {
+        if(!row.remark) {
+          return '-';
+        }
+        return row.remark;
+      }
+    },
+    {
+      key: 'created_at',
+      title: $t('page.common.Time'),
+      align: 'center',
+      width: 220,
+      render: row => {
+        return (
+          <div>
+            {$t('page.common.createdAt')}: {row.created_at}
+            {$t('page.common.updatedAt')}: {row.updated_at}
+          </div>
+        );
+      }
     },
     {
       key: 'operate',
