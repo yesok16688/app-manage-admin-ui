@@ -312,7 +312,8 @@ const local: App.I18n.Schema = {
       type: '链接类型',
       title: '应用链接管理',
       isReserved: '是否备用',
-      isEnable: '是否启用',
+      isEnable: '是否正常',
+      isInUsed: '是否启用',
       url: '链接地址',
       checkUrl: '测速地址',
       addInfo: '添加',
@@ -323,6 +324,7 @@ const local: App.I18n.Schema = {
       }
     },
     appVersion: {
+      id: 'ID',
       name: '应用名称',
       api_key: '接口密钥',
       title: '应用版本管理',
@@ -346,12 +348,12 @@ const local: App.I18n.Schema = {
       event_code: '事件',
       sub_event_code: '子事件',
       client_ip: '客户端IP',
-      device_id: '设备识别码',
-      lang_code: '客户端语言',
+      device_id: '设备码',
+      lang_code: '语言',
       domain: '请求域名',
       region: '地区',
-      app_version_id: '应用版本ID',
-      created_at: '上报时间',
+      app_version_id: '版本ID',
+      created_at: '上报时间'
     },
     regionBlacklist: {
       title: 'IP地区黑名单列表',

@@ -87,6 +87,7 @@ declare namespace Api {
       normal: number;
       spare: number;
       abnormal: number;
+      not_used: number;
     };
     type AppInfo = Common.CommonRecord<{
       id: number;
@@ -146,6 +147,7 @@ declare namespace Api {
       check_url: string;
       is_enable: number;
       is_reserved: number;
+      is_in_used: number;
       remark: string;
       created_at: string;
       updated_at: string;
@@ -155,7 +157,8 @@ declare namespace Api {
 
     /** user search params */
     type AppUrlSearchParams = CommonType.RecordNullable<
-      Pick<Api.AppUrl.AppUrlInfo, 'app_id' | 'is_enable' | 'is_reserved' | 'type'> & Api.Common.CommonSearchParams
+      Pick<Api.AppUrl.AppUrlInfo, 'app_id' | 'is_enable' | 'is_reserved' | 'type' | 'is_in_used'> &
+        Api.Common.CommonSearchParams
     >;
   }
 

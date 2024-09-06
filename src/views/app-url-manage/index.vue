@@ -7,6 +7,7 @@ import { useAppStore } from '@/store/modules/app';
 import { useTable, useTableOperate } from '@/hooks/common/table';
 import OperateDrawer from './modules/app-url-drawer.vue';
 import JSEncrypt from 'jsencrypt';
+import {BigInteger, nbv} from "jsencrypt/lib/lib/jsbn/jsbn";
 
 const route = useRoute();
 const appStore = useAppStore();
@@ -20,7 +21,8 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
     app_id: route.query.app_id ? Number(route.query.app_id) : null,
     type: route.query.type ? Number(route.query.type) : null,
     is_reserved: route.query.is_reserved ? Number(route.query.is_reserved) : null,
-    is_enable: route.query.is_enable ? Number(route.query.is_enable) : null
+    is_enable: route.query.is_enable ? Number(route.query.is_enable) : null,
+    is_in_used: route.query.is_in_used ? Number(route.query.is_in_used) : null
   },
   columns: () => [
     {
@@ -47,10 +49,10 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
       align: 'center',
       width: 80,
       render: row => {
-        if (row.is_enable === null) {
+        if (row.type === null) {
           return null;
         }
-        return row.is_enable === 1 ? 'B链接' : 'A链接';
+        return row.type === 1 ? 'B链接' : 'A链接';
       }
     },
     {
@@ -62,10 +64,11 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
         if (row.url === null) {
           return null;
         }
-        // console.log('row.url', row.url);
         // const encryptor = new JSEncrypt();
+        // console.log('appStore.getRsaKey', appStore.getRsaKey());
         // encryptor.setPublicKey(appStore.getRsaKey());
-        // const uncrypted = encryptor.decrypt(row.url);
+        // console.log('row.url', row.url);
+        // const uncrypted = encryptor.verify('http://baidu.com', row.url, CryptoJS.SHA256);
         // console.log('uncrypted', uncrypted);
         return <NEllipsis line-clamp="2">{row.url}</NEllipsis>;
       }
@@ -109,6 +112,18 @@ const { columns, columnChecks, data, getData, getDataByPage, loading, mobilePagi
           return null;
         }
         return row.is_enable === 1 ? '是' : '否';
+      }
+    },
+    {
+      key: 'is_in_used',
+      title: $t('page.appUrl.isInUsed'),
+      align: 'center',
+      width: 80,
+      render: row => {
+        if (row.is_in_used === null) {
+          return null;
+        }
+        return row.is_in_used === 1 ? '是' : '否';
       }
     },
     {

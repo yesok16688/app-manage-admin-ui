@@ -549,12 +549,14 @@ declare namespace App {
           checkUrl: string;
           addInfo: string;
           editInfo: string;
+          isInUsed: string;
           placeholder: {
             url: string;
             checkUrl: string;
           };
         };
         appVersion: {
+          id: string;
           name: string;
           api_key: string;
           title: string;

@@ -39,8 +39,8 @@ const {
   },
   columns: () => [
     {
-      key: 'index',
-      title: $t('common.index'),
+      key: 'id',
+      title: $t('page.appVersion.id'),
       align: 'center',
       width: 50
     },

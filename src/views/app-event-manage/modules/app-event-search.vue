@@ -6,6 +6,7 @@ import { getOptions } from '@/store/modules/app/shared';
 
 const pageOptions = getOptions();
 const regionOptions = pageOptions.common.region ? transformRecordToOption(pageOptions.common.region) : {};
+const langOptions = pageOptions.common.lang ? transformRecordToOption(pageOptions.common.lang) : {};
 
 defineOptions({
   name: 'AppSearch'
@@ -52,13 +53,13 @@ async function search() {
               <NInput v-model:value="model.client_ip" />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.appEvent.region')" path="region" class="pr-24px">
-              <NSelect v-model:value="model.client_ip_region_code" :options="regionOptions" clearable />
+              <NSelect v-model:value="model.client_ip_region_code" :options="regionOptions" clearable filterable />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.appEvent.device_id')" path="device_id" class="pr-24px">
               <NInput v-model:value="model.device_id" />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.appEvent.lang_code')" path="lang_code" class="pr-24px">
-              <NInput v-model:value="model.lang_code" />
+              <NSelect v-model:value="model.lang_code" :options="langOptions" clearable filterable />
             </NFormItemGi>
             <NFormItemGi span="24 s:12 m:6" :label="$t('page.appEvent.domain')" path="domain" class="pr-24px">
               <NInput v-model:value="model.domain" />

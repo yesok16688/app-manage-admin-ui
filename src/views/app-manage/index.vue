@@ -119,7 +119,7 @@ const {
       key: 'a_link_info',
       title: $t('page.appManage.alink'),
       align: 'center',
-      minWidth: 80,
+      width: 175,
       render: row => {
         let normalColor = 'success';
         let spareColor = 'primary';
@@ -136,27 +136,37 @@ const {
           abnormalColor = 'error';
         }
         return (
-          <NSpace vertical size="small">
+          <NSpace size="small">
             <NButton
               type={normalColor}
               size="small"
               ghost
               onClick={() =>
-                routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 0, is_enable: 1, is_reserved: 0 } })
+                routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 0, is_enable: 1, is_reserved: 0, is_in_used: 1 } })
               }
             >
               正常( {row.a_link_info.normal} )
-            </NButton>{' '}
+            </NButton>
             <NButton
               type={spareColor}
               size="small"
               ghost
               onClick={() =>
-                routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 0, is_enable: 1, is_reserved: 1 } })
+                routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 0, is_enable: 1, is_reserved: 1, is_in_used: 1  } })
               }
             >
               备用( {row.a_link_info.spare} )
-            </NButton>{' '}
+            </NButton>
+            <NButton
+              type="default"
+              size="small"
+              ghost
+              onClick={() =>
+                routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 0, is_enable: 1, is_in_used: 0 } })
+              }
+            >
+              待用( {row.a_link_info.not_used} )
+            </NButton>
             <NButton
               type={abnormalColor}
               size="small"
@@ -191,7 +201,7 @@ const {
               type={normalColor}
               size="small"
               ghost
-              onClick={() => routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 1, is_enable: 1 } })}
+              onClick={() => routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 1, is_enable: 1, is_in_used: 1  } })}
             >
               正常( {row.b_link_info.normal} )
             </NButton>{' '}
@@ -203,6 +213,14 @@ const {
             >
               异常( {row.b_link_info.abnormal} )
             </NButton>
+            <NButton
+              type='default'
+              size="small"
+              ghost
+              onClick={() => routerPushByKey('app-url-manage', { query: { app_id: row.id, type: 1, is_enable: 1, is_in_used: 0  } })}
+            >
+              待用( {row.b_link_info.not_used} )
+            </NButton>{' '}
           </NSpace>
         );
       }

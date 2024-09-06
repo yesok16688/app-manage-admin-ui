@@ -135,12 +135,14 @@ watch(visible, () => {
         <NFormItem :label="$t('page.appUrl.isEnable')" path="is_enable">
           <NSwitch v-model:value="model.is_enable" :checked-value="1" :unchecked-value="0" />
         </NFormItem>
+        <NFormItem :label="$t('page.appUrl.isInUsed')" path="is_in_used">
+          <NSwitch v-model:value="model.is_in_used" :checked-value="1" :unchecked-value="0" />
+        </NFormItem>
         <NFormItem :label="$t('page.appUrl.isReserved')" path="is_reserved">
           <NSwitch
             v-model:value="model.is_reserved"
             :checked-value="1"
             :unchecked-value="0"
-            :disabled="true"
           />
         </NFormItem>
         <NFormItem :label="$t('page.appManage.remark')" path="remark">
