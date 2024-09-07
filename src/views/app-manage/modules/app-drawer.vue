@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue';
+import {computed, reactive, ref, watch} from 'vue';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { getOptions } from '@/store/modules/app/shared';
@@ -84,14 +84,18 @@ function closeDrawer() {
   visible.value = false;
 }
 
-async function handleSubmit() {
-  await validate();
-
+// 二步验证
+const isTwoFaceCodeDialogVisible = ref(false);
+const twoFaceCode = ref('');
+async function handleTwoFaceCodeConfirm() {
+  model.code2fa = twoFaceCode.value;
   if (props.operateType === 'add') {
     const { error } = await fetchCreateAppInfo(model);
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
       closeDrawer();
+      isTwoFaceCodeDialogVisible.value = false;
+      twoFaceCode.value = '';
       emit('submitted');
     }
   } else {
@@ -99,9 +103,16 @@ async function handleSubmit() {
     if (!error) {
       window.$message?.success($t('common.updateSuccess'));
       closeDrawer();
+      isTwoFaceCodeDialogVisible.value = false;
+      twoFaceCode.value = '';
       emit('submitted');
     }
   }
+}
+
+async function handleSubmit() {
+  await validate();
+  isTwoFaceCodeDialogVisible.value = true;
 }
 
 watch(visible, () => {
@@ -156,5 +167,24 @@ watch(visible, () => {
       </template>
     </NDrawerContent>
   </NDrawer>
+
+  <NModal v-model:show="isTwoFaceCodeDialogVisible" :title="$t('common.twoFaceCode')" preset="card" class="w-480px">
+    <NInput v-model:value="twoFaceCode" />
+    <template #footer>
+      <NSpace>
+        <NButton
+          @click="
+            () => {
+              isTwoFaceCodeDialogVisible = false;
+              twoFaceCode = '';
+            }
+          "
+        >
+          {{ $t('common.cancel') }}
+        </NButton>
+        <NButton type="primary" @click="handleTwoFaceCodeConfirm">{{ $t('common.confirm') }}</NButton>
+      </NSpace>
+    </template>
+  </NModal>
 </template>
 <style scoped></style>

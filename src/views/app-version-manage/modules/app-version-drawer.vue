@@ -2,13 +2,14 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import type { UploadFileInfo } from 'naive-ui';
+import { NDialog } from 'naive-ui';
 import { useFormRules, useNaiveForm } from '@/hooks/common/form';
 import { $t } from '@/locales';
 import { fetchCreateAppVersionInfo, fetchUpdateAppVersionInfo } from '@/service/api';
 import { getServiceBaseURL } from '@/utils/service';
 import { localStg } from '@/utils/storage';
 import { getOptions } from '@/store/modules/app/shared';
-import {transformRecordToNumberOption, transformRecordToOption} from '@/utils/common';
+import { transformRecordToNumberOption, transformRecordToOption } from '@/utils/common';
 
 const token = localStg.get('token');
 const Authorization = token ? `Bearer ${token}` : null;
@@ -94,6 +95,32 @@ const rules: Record<RuleKey, App.Global.FormRule> = {
   download_link: patternRules.url
 };
 
+// 二步验证
+const isTwoFaceCodeDialogVisible = ref(false);
+const twoFaceCode = ref('');
+async function handleTwoFaceCodeConfirm() {
+  model.code2fa = twoFaceCode.value;
+  if (props.operateType === 'add') {
+    const { error } = await fetchCreateAppVersionInfo(model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      closeDrawer();
+      isTwoFaceCodeDialogVisible.value = false;
+      twoFaceCode.value = '';
+      emit('submitted');
+    }
+  } else {
+    const { error } = await fetchUpdateAppVersionInfo(props.rowData.id, model);
+    if (!error) {
+      window.$message?.success($t('common.updateSuccess'));
+      closeDrawer();
+      isTwoFaceCodeDialogVisible.value = false;
+      twoFaceCode.value = '';
+      emit('submitted');
+    }
+  }
+}
+
 function handleInitModel() {
   Object.assign(model, createDefaultModel());
   if (props.operateType === 'add') {
@@ -119,24 +146,7 @@ function generateRandomString() {
 
 async function handleSubmit() {
   await validate();
-  model.ip_blacklist = model.ip_blacklist ? model.ip_blacklist.split(',') : [];
-  model.device_blacklist = model.device_blacklist ? model.device_blacklist.split(',') : [];
-  model.ip_whitelist = model.ip_whitelist ? model.ip_whitelist.split(',') : [];
-  if (props.operateType === 'add') {
-    const { error } = await fetchCreateAppVersionInfo(model);
-    if (!error) {
-      window.$message?.success($t('common.updateSuccess'));
-      closeDrawer();
-      emit('submitted');
-    }
-  } else {
-    const { error } = await fetchUpdateAppVersionInfo(props.rowData.id, model);
-    if (!error) {
-      window.$message?.success($t('common.updateSuccess'));
-      closeDrawer();
-      emit('submitted');
-    }
-  }
+  isTwoFaceCodeDialogVisible.value = true;
 }
 
 const uploadIconApi = ref(`${baseURL}/api/upload/icon`);
@@ -355,6 +365,25 @@ watch(visible, () => {
 
   <NModal v-model:show="showPreviewImgModal" preset="card" style="width: 600px">
     <img :src="previewImageUrl" style="width: 100%" alt="预览" />
+  </NModal>
+
+  <NModal v-model:show="isTwoFaceCodeDialogVisible" :title="$t('common.twoFaceCode')" preset="card" class="w-480px">
+    <NInput v-model:value="twoFaceCode" />
+    <template #footer>
+      <NSpace>
+        <NButton
+          @click="
+            () => {
+              isTwoFaceCodeDialogVisible = false;
+              twoFaceCode = '';
+            }
+          "
+        >
+          {{ $t('common.cancel') }}
+        </NButton>
+        <NButton type="primary" @click="handleTwoFaceCodeConfirm">{{ $t('common.confirm') }}</NButton>
+      </NSpace>
+    </template>
   </NModal>
 </template>
 

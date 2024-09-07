@@ -1,6 +1,7 @@
 <script setup lang="tsx">
 import { NButton, NGi, NGrid, NImage, NPopconfirm } from 'naive-ui';
 import { useRoute } from 'vue-router';
+import { ref } from 'vue';
 import { fetchDeleteAppVersionInfo, fetchGetAppVersionList } from '@/service/api';
 import { $t } from '@/locales';
 import { useAppStore } from '@/store/modules/app';
@@ -161,16 +162,17 @@ const {
           <NButton type="primary" ghost size="small" onClick={() => edit(row.id)}>
             {$t('common.edit')}
           </NButton>
-          <NPopconfirm onPositiveClick={() => handleDelete(row.id)}>
-            {{
-              default: () => $t('common.confirmDelete'),
-              trigger: () => (
-                <NButton type="error" ghost size="small">
-                  {$t('common.delete')}
-                </NButton>
-              )
+          <NButton
+            type="error"
+            ghost
+            size="small"
+            onClick={() => {
+              isTwoFaceCodeDialogVisible.value = true;
+              deletingId.value = row.id;
             }}
-          </NPopconfirm>
+          >
+            {$t('common.delete')}
+          </NButton>
         </div>
       )
     }
@@ -184,21 +186,21 @@ const {
   handleAdd,
   handleEdit,
   checkedRowKeys,
-  onBatchDeleted,
   onDeleted
   // closeDrawer
 } = useTableOperate(data, getData);
 
-async function handleBatchDelete() {
-  // request
-  onBatchDeleted();
-}
-
-async function handleDelete(id: number) {
-  const { error } = await fetchDeleteAppVersionInfo(id);
+// 二步验证
+const isTwoFaceCodeDialogVisible = ref(false);
+const twoFaceCode = ref('');
+const deletingId = ref(0);
+async function handleTwoFaceCodeConfirm() {
+  const { error } = await fetchDeleteAppVersionInfo(deletingId.value, twoFaceCode.value);
   if (!error) {
     onDeleted();
   }
+  isTwoFaceCodeDialogVisible.value = false;
+  twoFaceCode.value = '';
 }
 
 function edit(id: number) {
@@ -216,7 +218,6 @@ function edit(id: number) {
           :disabled-delete="1"
           :loading="loading"
           @add="handleAdd"
-          @delete="handleBatchDelete"
           @refresh="getData"
         />
       </template>
@@ -241,6 +242,25 @@ function edit(id: number) {
       />
     </NCard>
   </div>
+
+  <NModal v-model:show="isTwoFaceCodeDialogVisible" :title="$t('common.twoFaceCode')" preset="card" class="w-480px">
+    <NInput v-model:value="twoFaceCode" />
+    <template #footer>
+      <NSpace>
+        <NButton
+          @click="
+            () => {
+              isTwoFaceCodeDialogVisible = false;
+              twoFaceCode = '';
+            }
+          "
+        >
+          {{ $t('common.cancel') }}
+        </NButton>
+        <NButton type="primary" @click="handleTwoFaceCodeConfirm">{{ $t('common.confirm') }}</NButton>
+      </NSpace>
+    </template>
+  </NModal>
 </template>
 
 <style scoped></style>

@@ -331,6 +331,7 @@ declare namespace App {
           yes: string;
           no: string;
         };
+        twoFaceCode: string;
       };
       request: {
         logout: string;

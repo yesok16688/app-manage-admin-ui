@@ -49,7 +49,8 @@ const local: App.I18n.Schema = {
     yesOrNo: {
       yes: '是',
       no: '否'
-    }
+    },
+    twoFaceCode: '请输入二步验证码'
   },
   request: {
     logout: '请求失败后登出用户',

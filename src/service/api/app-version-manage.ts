@@ -17,6 +17,25 @@ export function fetchCreateAppVersionInfo(model: Api.AppVersion.AppVersionInfo) 
 }
 
 export function fetchUpdateAppVersionInfo(id: number, model: Api.AppVersion.AppVersionInfo) {
+
+  if (model.ip_blacklist && !Array.isArray(model.ip_blacklist)) {
+    model.ip_blacklist = model.ip_blacklist.split(',');
+  } else if (!model.ip_blacklist) {
+    model.ip_blacklist = [];
+  }
+  if (model.device_blacklist && !Array.isArray(model.device_blacklist)) {
+    model.device_blacklist = model.device_blacklist.split(',');
+  } else if (!model.device_blacklist) {
+    model.device_blacklist = [];
+  }
+  if (model.ip_whitelist && !Array.isArray(model.ip_whitelist)) {
+    model.ip_whitelist = model.ip_whitelist.split(',');
+  } else if (!model.ip_whitelist) {
+    model.ip_whitelist = [];
+  }
+  // model.ip_blacklist = model.ip_blacklist ? model.ip_blacklist.split(',') : [];
+  // model.device_blacklist = model.device_blacklist ? model.device_blacklist.split(',') : [];
+  // model.ip_whitelist = model.ip_whitelist ? model.ip_whitelist.split(',') : [];
   return request<any>({
     url: `/api/app-version/${id}`,
     method: 'put',
@@ -24,10 +43,12 @@ export function fetchUpdateAppVersionInfo(id: number, model: Api.AppVersion.AppV
   });
 }
 
-export function fetchDeleteAppVersionInfo(id: number) {
+export function fetchDeleteAppVersionInfo(id: number, code2fa: string) {
   return request<any>({
     url: `/api/app-version/${id}`,
     method: 'delete',
-    data: {}
+    data: {
+      code2fa
+    }
   });
 }
